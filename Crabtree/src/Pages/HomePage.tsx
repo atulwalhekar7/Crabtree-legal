@@ -1,10 +1,10 @@
-import React from 'react';
+
 import HeroCarousel from '../Components/HeroCarousel';
 import FAQSection from '../Components/FAQSection';
 
 
 import { ArrowRight } from 'lucide-react';
-import type { CarouselSlide, Faq } from '../hooks/types';
+import type { Faq } from '../hooks/types';
 
 
 

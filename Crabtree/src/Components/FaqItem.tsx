@@ -7,7 +7,7 @@ type Props = {
   index: number;
 };
 
-export default function FaqItem({ faq, index }: Props) {
+export default function FaqItem({ faq }: Props) {
   const [open, setOpen] = React.useState(false);
 
   return (

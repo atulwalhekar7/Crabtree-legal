@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, {  useState, useEffect } from 'react';
 import {
   ChevronRight,
   Phone,
@@ -84,81 +84,6 @@ type NavButtonProps = {
   t: Theme;
 };
 
-type PrimaryButtonProps = {
-  children: React.ReactNode;
-  onClick: () => void;
-  style?: React.CSSProperties;
-};
-
-type OutlineButtonProps = {
-  children: React.ReactNode;
-  onClick: () => void;
-  style?: React.CSSProperties;
-};
-
-type ServiceCardProps = {
-  svc: (typeof SERVICES_DATA)[number];
-  t: Theme;
-  handleNavClick: (tab: string) => void;
-};
-
-type ArticleCardProps = {
-  art: (typeof ARTICLES_DATA)[number];
-  t: Theme;
-  onSelect: (art: (typeof ARTICLES_DATA)[number]) => void;
-};
-
-type FaqItemProps = {
-  faq: (typeof FAQS)[number];
-  idx: number;
-  t: Theme;
-};
-
-type HomeContactInfoCardProps = {
-  item: {
-    label: string;
-    value: string;
-    icon: React.ReactElement;
-  };
-  t: Theme;
-};
-
-type HomeContactFormProps = {
-  t: Theme;
-  isDark: boolean;
-  handleNavClick: (tab: string) => void;
-};
-
-type AboutSectionProps = {
-  t: Theme;
-  isDark: boolean;
-  handleNavClick: (tab: string) => void;
-};
-
-type ThemeToggleProps = {
-  isDark: boolean;
-  setIsDark: React.Dispatch<React.SetStateAction<boolean>>;
-  scrolled: boolean;
-  t: Theme;
-};
-
-type FilterButtonProps = {
-  label: string;
-  active: boolean;
-  onClick: () => void;
-  t: Theme;
-};
-
-type TextLinkButtonProps = {
-  children: React.ReactNode;
-  onClick: () => void;
-};
-
-type FooterNavLinkProps = {
-  label: string;
-  onClick: () => void;
-  small: boolean;
-};
 
 
 // ─── Components ───────────────────────────────────────────────────────────────
@@ -185,8 +110,12 @@ function NavButton({ item, activeTab, handleNavClick, scrolled, t }: NavButtonPr
     </button>
   );
 }
-
-function PrimaryButton({ children, onClick, style = {} }) {
+type PrimaryButtonProps = {
+  children: React.ReactNode;
+  onClick: () => void;
+  style?: React.CSSProperties;
+};
+function PrimaryButton({ children, onClick, style = {} }: PrimaryButtonProps) {
   const [hov, hovProps] = useHover();
   return (
     <button
@@ -207,8 +136,12 @@ function PrimaryButton({ children, onClick, style = {} }) {
     </button>
   );
 }
-
-function OutlineButton({ children, onClick, style = {} }) {
+type OutlineButtonProps = {
+  children: React.ReactNode;
+  onClick: () => void;
+  style?: React.CSSProperties;
+};
+function OutlineButton({ children, onClick, style = {} }: OutlineButtonProps) {
   const [hov, hovProps] = useHover();
   return (
     <button
@@ -226,8 +159,12 @@ function OutlineButton({ children, onClick, style = {} }) {
     </button>
   );
 }
-
-function ServiceCard({ svc, t, handleNavClick }) {
+type ServiceCardProps = {
+  svc: (typeof SERVICES_DATA)[number];
+  t: Theme;
+  handleNavClick: (tab: string) => void;
+};
+function ServiceCard({ svc, t, handleNavClick }: ServiceCardProps) {
   const [hov, hovProps] = useHover();
   const [btnHov, btnHovProps] = useHover();
   return (
@@ -281,8 +218,14 @@ function ServiceCard({ svc, t, handleNavClick }) {
   );
 }
 
-function ArticleCard({ art, t, onSelect }) {
-  const [hov, hovProps] = useHover();
+type ArticleCardProps = {
+  art: (typeof ARTICLES_DATA)[number];
+  t: Theme;
+  onSelect: (art: (typeof ARTICLES_DATA)[number]) => void;
+};
+
+function ArticleCard({ art, t, onSelect }: ArticleCardProps) {
+    const [hov, hovProps] = useHover();
   return (
     <div
       {...hovProps}
@@ -315,7 +258,12 @@ function ArticleCard({ art, t, onSelect }) {
   );
 }
 
-function FaqItem({ faq, idx, t }) {
+type FaqItemProps = {
+  faq: (typeof FAQS)[number];
+  idx: number;
+  t: Theme;
+};
+function FaqItem({ faq,  t }: FaqItemProps) {
   const [open, setOpen] = useState(false);
   const [hov, hovProps] = useHover();
   return (
@@ -344,7 +292,16 @@ function FaqItem({ faq, idx, t }) {
   );
 }
 
-function HomeContactInfoCard({ item, t }) {
+type HomeContactInfoCardProps = {
+  item: {
+    label: string;
+    value: string;
+    icon: React.ReactElement<{ color?: string }>;
+  };
+  t: Theme;
+};
+
+function HomeContactInfoCard({ item, t }: HomeContactInfoCardProps) {
   const [hov, hovProps] = useHover();
   return (
     <div
@@ -368,12 +325,18 @@ function HomeContactInfoCard({ item, t }) {
     </div>
   );
 }
-
-function HomeContactForm({ t, isDark, handleNavClick }) {
+type HomeContactFormProps = {
+  t: Theme;
+  isDark: boolean;
+  handleNavClick: (tab: string) => void;
+};
+function HomeContactForm({ t, isDark, handleNavClick }: HomeContactFormProps) {
   const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phone: '', message: '' });
+  const nameFieldKeys = ['firstName', 'lastName'] as const;
+  type NameFieldKey = (typeof nameFieldKeys)[number];
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitted(true);
     setTimeout(() => {
@@ -382,7 +345,7 @@ function HomeContactForm({ t, isDark, handleNavClick }) {
     }, 5000);
   };
 
-  const inputStyle = {
+  const inputStyle: React.CSSProperties = {
     width: '100%', boxSizing: 'border-box',
     background: t.inputBg, color: t.text,
     border: `1px solid ${t.border}`, borderRadius: 8,
@@ -400,7 +363,13 @@ function HomeContactForm({ t, isDark, handleNavClick }) {
             {(['firstName', 'lastName']).map(field => (
               <div key={field}>
                 <label style={labelStyle}>{field === 'firstName' ? 'First Name' : 'Last Name'}</label>
-                <input type="text" required value={form[field]} onChange={e => setForm({ ...form, [field]: e.target.value })} style={inputStyle} />
+                <input
+                  type="text"
+                  required
+                  value={form[field as NameFieldKey]}
+                  onChange={(e) => setForm({ ...form, [field as NameFieldKey]: e.target.value })}
+                  style={inputStyle}
+                />
               </div>
             ))}
           </div>
@@ -419,7 +388,7 @@ function HomeContactForm({ t, isDark, handleNavClick }) {
             <textarea rows={4} required value={form.message} onChange={e => setForm({ ...form, message: e.target.value })} placeholder="Briefly describe your legal matter — Wills, Probate, Business Succession..." style={{ ...inputStyle, resize: 'vertical' }} />
           </div>
           <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
-            <PrimaryButton style={{ flex: 1, padding: '13px 0', minWidth: 160 }}>Send Enquiry</PrimaryButton>
+            <PrimaryButton onClick={() => {}} style={{ flex: 1, padding: '13px 0', minWidth: 160 }}>Send Enquiry</PrimaryButton>
             <button type="button" onClick={() => handleNavClick('Contact')} style={{ flex: 1, minWidth: 140, padding: '13px 0', background: 'none', border: `1px solid ${t.border}`, borderRadius: 6, cursor: 'pointer', fontSize: 11, fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', color: t.textMuted, transition: 'all 0.2s' }}>
               Full Contact Page →
             </button>
@@ -444,7 +413,7 @@ function HomeContactForm({ t, isDark, handleNavClick }) {
 }
 
 // ─── NEW: About Section styled like Screenshot 1 ──────────────────────────────
-function AboutSection({ t, isDark, handleNavClick }) {
+function AboutSection({ t, isDark, handleNavClick }: { t: Theme; isDark: boolean; handleNavClick: (tab: string) => void }) {
   return (
     <section style={{ padding: '120px 0 80px', background: t.bg }}>
       {/* Section header */}
@@ -465,7 +434,7 @@ function AboutSection({ t, isDark, handleNavClick }) {
       </div>
 
       {/* Full-width split: image left, content right — NO side padding on wrapper */}
-      <div style={{    paddingLeft: '25px',
+<div style={{ paddingLeft: '25px',
 
         display: 'grid',
         gridTemplateColumns: '1fr 1.15fr',
@@ -476,7 +445,7 @@ function AboutSection({ t, isDark, handleNavClick }) {
           <img
             src={OWNER_PHOTO_URL}
             alt="Jonathan Crabtree"
-            style={{ width: '100%', objectPosition: '15% left', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block', opacity: 0.92 }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center', display: 'block', opacity: 0.92 }}
           />
 
           {/* Top-left badge — "14+ Years Experience" matching screenshot style */}
@@ -597,6 +566,8 @@ function AboutSection({ t, isDark, handleNavClick }) {
 }
 
 // ─── Main App ─────────────────────────────────────────────────────────────────
+type Article = (typeof ARTICLES_DATA)[number];
+
 export default function App() {
   const [activeTab, setActiveTab] = useState('Home');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -605,7 +576,7 @@ export default function App() {
   const [isDark, setIsDark] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [activeServiceTab, setActiveServiceTab] = useState('all');
-  const [selectedArticle, setSelectedArticle] = useState(null);
+  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [contactForm, setContactForm] = useState({ firstName: '', lastName: '', email: '', phone: '', message: '' });
 
@@ -622,14 +593,14 @@ export default function App() {
     return () => clearInterval(id);
   }, []);
 
-  const handleNavClick = (tab) => {
+  const handleNavClick = (tab: string) => {
     setActiveTab(tab);
     setSelectedArticle(null);
     setMobileMenuOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleContactSubmit = (e) => {
+  const handleContactSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setContactSubmitted(true);
     setTimeout(() => {
@@ -645,12 +616,17 @@ export default function App() {
     a.category.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const inputStyle = {
-    width: '100%', boxSizing: 'border-box',
-    background: t.inputBg, color: t.text,
-    border: `1px solid ${t.border}`, borderRadius: 6,
-    padding: '10px 12px', fontSize: 14,
-    outline: 'none', transition: 'border-color 0.2s',
+const inputStyle: React.CSSProperties = {
+    width: '100%',
+    boxSizing: 'border-box' as any,
+    background: t.inputBg,
+    color: t.text,
+    border: `1px solid ${t.border}`,
+    borderRadius: 6,
+    padding: '10px 12px',
+    fontSize: 14,
+    outline: 'none',
+    transition: 'border-color 0.2s',
     fontFamily: "'Plus Jakarta Sans', sans-serif",
   };
   const labelStyle = { display: 'block', fontSize: 8, fontWeight: 700, color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 4 };
@@ -931,7 +907,13 @@ export default function App() {
                     <span style={{ fontSize: 10, letterSpacing: '0.15em', color: '#D43444', textTransform: 'uppercase', fontWeight: 900, background: isDark ? 'rgba(212,52,68,0.1)' : '#FFF0F1', padding: '4px 12px', borderRadius: 999, display: 'inline-block', marginBottom: 16 }}>Knowledge Hub</span>
                     <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: 'clamp(2rem, 4vw, 2.8rem)', fontWeight: 800, color: t.text, marginBottom: 12 }}>News &amp; Articles</h1>
                     <p style={{ fontSize: 12, fontWeight: 300, color: t.textMuted, marginBottom: 24 }}>Articles and commentary designed to help elevate your strategic legal IQ.</p>
-                    <input type="text" placeholder="Search articles, case reviews..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} style={{ ...inputStyle, borderRadius: 999, textAlign: 'center', maxWidth: 420, display: 'block', margin: '0 auto' }} />
+                    <input
+                      type="text"
+                      placeholder="Search articles, case reviews..."
+                      value={searchTerm}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
+                      style={{ ...inputStyle, borderRadius: 999, textAlign: 'center', maxWidth: 420, display: 'block', margin: '0 auto' }}
+                    />
                   </div>
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: 24 }}>
                     {filteredArticles.length > 0
@@ -946,7 +928,7 @@ export default function App() {
                     <ChevronLeft size={15} /> Back to All Articles
                   </button>
                   <div style={{ marginBottom: 24, display: 'flex', justifyContent: 'space-between' }}>
-                    <span style={{ fontSize: 10, fontWeight: 700, color: '#D43444' }}>{selectedArticle.category}</span>
+                    {selectedArticle && <span style={{ fontSize: 10, fontWeight: 700, color: '#D43444' }}>{selectedArticle.category}</span>}
                     <span style={{ fontSize: 10, fontWeight: 700, color: '#9CA3AF' }}>{selectedArticle.date}</span>
                   </div>
                   <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: 'clamp(1.4rem, 3vw, 2rem)', fontWeight: 800, lineHeight: 1.3, color: t.text, marginBottom: 12 }}>{selectedArticle.title}</h2>
@@ -999,7 +981,13 @@ export default function App() {
                         {(['firstName', 'lastName']).map(field => (
                           <div key={field}>
                             <label style={labelStyle}>{field === 'firstName' ? 'First Name' : 'Last Name'}</label>
-                            <input type="text" required value={contactForm[field]} onChange={e => setContactForm({ ...contactForm, [field]: e.target.value })} style={inputStyle} />
+                        <input
+                          type="text"
+                          required
+                          value={contactForm[field as keyof typeof contactForm]}
+                          onChange={(e) => setContactForm({ ...contactForm, [field as keyof typeof contactForm]: e.target.value })}
+                          style={inputStyle}
+                        />
                           </div>
                         ))}
                       </div>
@@ -1017,7 +1005,7 @@ export default function App() {
                         <label style={labelStyle}>Brief Description of Needs</label>
                         <textarea rows={4} required value={contactForm.message} onChange={e => setContactForm({ ...contactForm, message: e.target.value })} placeholder="Note key details regarding succession deeds, Wills, or Probate needs..." style={inputStyle} />
                       </div>
-                      <PrimaryButton style={{ width: '100%', padding: '14px 0' }}>Transmit Case Inquiry</PrimaryButton>
+<PrimaryButton onClick={() => {}} style={{ width: '100%', padding: '14px 0' }}>Transmit Case Inquiry</PrimaryButton>
                     </form>
                   ) : (
                     <div style={{ textAlign: 'center', padding: '48px 0' }}>
@@ -1076,7 +1064,13 @@ export default function App() {
 }
 
 // ─── Helper Sub-components ────────────────────────────────────────────────────
-function ThemeToggle({ isDark, setIsDark, scrolled, t }) {
+type ThemeToggleProps = {
+  isDark: boolean;
+  setIsDark: React.Dispatch<React.SetStateAction<boolean>>;
+  scrolled: boolean;
+  t: Theme;
+};
+function ThemeToggle({ isDark, setIsDark, scrolled, t }: ThemeToggleProps) {
   const [hov, hovProps] = useHover();
   return (
     <button
@@ -1092,8 +1086,13 @@ function ThemeToggle({ isDark, setIsDark, scrolled, t }) {
     </button>
   );
 }
-
-function FilterButton({ label, active, onClick, t }) {
+type FilterButtonProps = {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+  t: Theme;
+};
+function FilterButton({ label, active, onClick, t }: FilterButtonProps) {
   const [hov, hovProps] = useHover();
   return (
     <button onClick={onClick} {...hovProps} style={{ padding: '8px 16px', borderRadius: 999, fontSize: 9, fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', cursor: 'pointer', background: active ? '#D43444' : (hov ? (t.isDark ? '#2a2a2a' : '#f3f4f6') : t.cardBg), color: active ? '#fff' : t.text, border: `1px solid ${active ? '#D43444' : t.border}`, transition: 'all 0.2s' }}>
@@ -1102,16 +1101,9 @@ function FilterButton({ label, active, onClick, t }) {
   );
 }
 
-function TextLinkButton({ children, onClick }) {
-  const [hov, hovProps] = useHover();
-  return (
-    <button onClick={onClick} {...hovProps} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#D43444', fontSize: 10, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.12em', textDecoration: hov ? 'underline' : 'none', display: 'inline-flex', alignItems: 'center', gap: 4, padding: 0 }}>
-      {children}
-    </button>
-  );
-}
 
-function FooterNavLink({ label, onClick, small }) {
+
+function FooterNavLink({ label, onClick, small }: { label: string; onClick: () => void; small?: boolean }) {
   const [hov, hovProps] = useHover();
   return (
     <button onClick={onClick} {...hovProps} style={{ background: 'none', border: 'none', cursor: 'pointer', color: hov ? '#D43444' : '#9CA3AF', fontSize: small ? 11 : 14, fontWeight: small ? 700 : 400, transition: 'color 0.2s', padding: 0, textTransform: small ? 'uppercase' : 'none', letterSpacing: small ? '0.1em' : 'normal' }}>

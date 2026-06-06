@@ -1,4 +1,4 @@
-import React from 'react';
+
 import type { Faq } from '../hooks/types';
 
 

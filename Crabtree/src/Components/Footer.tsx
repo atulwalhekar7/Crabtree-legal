@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { LOGO_URL } from '../constants/assets';
 import { NAV_ITEMS } from '../constants/colours';
 
