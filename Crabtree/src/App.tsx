@@ -465,7 +465,8 @@ function AboutSection({ t, isDark, handleNavClick }) {
       </div>
 
       {/* Full-width split: image left, content right — NO side padding on wrapper */}
-      <div style={{
+      <div style={{    paddingLeft: '25px',
+
         display: 'grid',
         gridTemplateColumns: '1fr 1.15fr',
         minHeight: 560,
