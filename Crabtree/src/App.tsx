@@ -1,7 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import {
-  ArrowRight, ChevronRight, Phone, Mail, MapPin, Menu, X,
-  Check, Award, Sun, Moon, ChevronDown, ChevronLeft, Briefcase,
+  ChevronRight,
+  Phone,
+  Mail,
+  MapPin,
+  Check,
+  Award,
+  Sun,
+  Moon,
+  ChevronDown,
+  ChevronLeft,
+  Briefcase,
 } from 'lucide-react';
 
 // ─── Static Data ──────────────────────────────────────────────────────────────
@@ -39,7 +48,8 @@ const FAQS = [
 const NAV_ITEMS = ['Home', 'About', 'Services', 'News & Articles', 'Contact'];
 
 // ─── Theme Tokens ─────────────────────────────────────────────────────────────
-const getTheme = (isDark) => ({
+const getTheme = (isDark: boolean) => ({
+
   bg: isDark ? '#121212' : '#ffffff',
   bgAlt: isDark ? '#1C1C1C' : '#F8F8F8',
   cardBg: isDark ? '#1A1A1A' : '#ffffff',
@@ -55,13 +65,104 @@ const getTheme = (isDark) => ({
 });
 
 // ─── Reusable Hover Hook ──────────────────────────────────────────────────────
-function useHover() {
+function useHover(): [boolean, React.HTMLAttributes<HTMLElement>] {
   const [hovered, setHovered] = useState(false);
-  return [hovered, { onMouseEnter: () => setHovered(true), onMouseLeave: () => setHovered(false) }];
+  const props: React.HTMLAttributes<HTMLElement> = {
+    onMouseEnter: () => setHovered(true),
+    onMouseLeave: () => setHovered(false),
+  };
+  return [hovered, props];
 }
 
+type Theme = ReturnType<typeof getTheme>;
+
+type NavButtonProps = {
+  item: string;
+  activeTab: string;
+  handleNavClick: (tab: string) => void;
+  scrolled: boolean;
+  t: Theme;
+};
+
+type PrimaryButtonProps = {
+  children: React.ReactNode;
+  onClick: () => void;
+  style?: React.CSSProperties;
+};
+
+type OutlineButtonProps = {
+  children: React.ReactNode;
+  onClick: () => void;
+  style?: React.CSSProperties;
+};
+
+type ServiceCardProps = {
+  svc: (typeof SERVICES_DATA)[number];
+  t: Theme;
+  handleNavClick: (tab: string) => void;
+};
+
+type ArticleCardProps = {
+  art: (typeof ARTICLES_DATA)[number];
+  t: Theme;
+  onSelect: (art: (typeof ARTICLES_DATA)[number]) => void;
+};
+
+type FaqItemProps = {
+  faq: (typeof FAQS)[number];
+  idx: number;
+  t: Theme;
+};
+
+type HomeContactInfoCardProps = {
+  item: {
+    label: string;
+    value: string;
+    icon: React.ReactElement;
+  };
+  t: Theme;
+};
+
+type HomeContactFormProps = {
+  t: Theme;
+  isDark: boolean;
+  handleNavClick: (tab: string) => void;
+};
+
+type AboutSectionProps = {
+  t: Theme;
+  isDark: boolean;
+  handleNavClick: (tab: string) => void;
+};
+
+type ThemeToggleProps = {
+  isDark: boolean;
+  setIsDark: React.Dispatch<React.SetStateAction<boolean>>;
+  scrolled: boolean;
+  t: Theme;
+};
+
+type FilterButtonProps = {
+  label: string;
+  active: boolean;
+  onClick: () => void;
+  t: Theme;
+};
+
+type TextLinkButtonProps = {
+  children: React.ReactNode;
+  onClick: () => void;
+};
+
+type FooterNavLinkProps = {
+  label: string;
+  onClick: () => void;
+  small: boolean;
+};
+
+
 // ─── Components ───────────────────────────────────────────────────────────────
-function NavButton({ item, activeTab, handleNavClick, scrolled, t }) {
+function NavButton({ item, activeTab, handleNavClick, scrolled, t }: NavButtonProps) {
   const [hov, hovProps] = useHover();
   const isActive = activeTab === item;
   return (
@@ -70,7 +171,7 @@ function NavButton({ item, activeTab, handleNavClick, scrolled, t }) {
       {...hovProps}
       style={{
         background: 'none', border: 'none', cursor: 'pointer', padding: '4px 0',
-        fontSize: 10, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase',
+        fontSize: 14, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase',
         color: isActive ? t.accent : scrolled ? t.textMuted : '#D1D5DB',
         transition: 'color 0.2s', position: 'relative',
       }}
@@ -95,7 +196,7 @@ function PrimaryButton({ children, onClick, style = {} }) {
         background: hov ? '#b02c38' : '#D43444',
         color: '#fff', border: 'none', cursor: 'pointer',
         padding: '12px 24px', borderRadius: 6,
-        fontSize: 10, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase',
+        fontSize: 14, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase',
         transition: 'background 0.2s, transform 0.2s',
         transform: hov ? 'translateY(-1px)' : 'none',
         boxShadow: hov ? '0 8px 24px rgba(212,52,68,0.3)' : '0 2px 8px rgba(212,52,68,0.2)',
@@ -117,7 +218,7 @@ function OutlineButton({ children, onClick, style = {} }) {
         background: hov ? 'rgba(255,255,255,0.2)' : 'rgba(255,255,255,0.1)',
         color: '#fff', border: '1px solid rgba(255,255,255,0.25)', cursor: 'pointer',
         padding: '12px 24px', borderRadius: 6,
-        fontSize: 10, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase',
+        fontSize: 14, fontWeight: 800, letterSpacing: '0.15em', textTransform: 'uppercase',
         transition: 'background 0.2s', ...style,
       }}
     >
@@ -144,17 +245,17 @@ function ServiceCard({ svc, t, handleNavClick }) {
       <div>
         <div style={{ height: 176, width: '100%', position: 'relative', overflow: 'hidden' }}>
           <img src={svc.image} alt={svc.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-          <div style={{ position: 'absolute', top: 12, left: 12, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)', padding: '4px 10px', borderRadius: 4, fontSize: 8, fontWeight: 900, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#D43444', border: '1px solid rgba(212,52,68,0.25)' }}>
+          <div style={{ position: 'absolute', top: 12, left: 12, background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)', padding: '4px 10px', borderRadius: 4, fontSize: 10, fontWeight: 900, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#D43444', border: '1px solid rgba(212,52,68,0.25)' }}>
             {svc.category}
           </div>
         </div>
         <div style={{ padding: '24px 24px 0' }}>
-          <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: 15, fontWeight: 800, margin: '0 0 8px', color: t.text }}>{svc.title}</h3>
-          <p style={{ fontSize: 11, fontWeight: 300, lineHeight: 1.7, color: t.textLight, margin: '0 0 16px' }}>{svc.subtitle}</p>
+          <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: 18, fontWeight: 800, margin: '0 0 8px', color: t.text }}>{svc.title}</h3>
+          <p style={{ fontSize: 14, fontWeight: 300, lineHeight: 1.7, color: t.textLight, margin: '0 0 16px' }}>{svc.subtitle}</p>
           <div style={{ borderTop: `1px solid ${t.border}`, paddingTop: 16 }}>
             {svc.points.map((pt) => (
               <div key={pt} style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                <Check size={13} color="#D43444" style={{ flexShrink: 0 }} />
+                <Check size={20} color="#D43444" style={{ flexShrink: 0 }} />
                 <span style={{ fontSize: 10.5, color: t.textLight }}>{pt}</span>
               </div>
             ))}
@@ -169,7 +270,7 @@ function ServiceCard({ svc, t, handleNavClick }) {
             width: '100%', background: btnHov ? '#D43444' : t.isDark ? 'rgba(212,52,68,0.1)' : '#FFF0F1',
             color: btnHov ? '#fff' : '#D43444', border: 'none', cursor: 'pointer',
             padding: '10px 0', borderRadius: 6,
-            fontSize: 9, fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase',
+            fontSize: 11, fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase',
             transition: 'all 0.2s',
           }}
         >
@@ -196,16 +297,16 @@ function ArticleCard({ art, t, onSelect }) {
     >
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 12 }}>
-          <span style={{ fontSize: 8.5, fontWeight: 700, color: '#9CA3AF', letterSpacing: '0.08em' }}>{art.date}</span>
-          <span style={{ fontSize: 8.5, fontWeight: 700, color: '#D43444', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{art.category}</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: '#9CA3AF', letterSpacing: '0.08em' }}>{art.date}</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: '#D43444', letterSpacing: '0.08em', textTransform: 'uppercase' }}>{art.category}</span>
         </div>
-        <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: 14, fontWeight: 800, lineHeight: 1.4, color: t.text, margin: '0 0 10px' }}>{art.title}</h3>
-        <p style={{ fontSize: 11, fontWeight: 300, lineHeight: 1.7, color: t.textLight, margin: 0 }}>{art.summary}</p>
+        <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: 18, fontWeight: 800, lineHeight: 1.4, color: t.text, margin: '0 0 10px' }}>{art.title}</h3>
+        <p style={{ fontSize: 15, fontWeight: 300, lineHeight: 1.7, color: t.textLight, margin: 0 }}>{art.summary}</p>
       </div>
       <div style={{ borderTop: `1px solid ${t.border}`, marginTop: 20, paddingTop: 16 }}>
         <button
           onClick={() => onSelect(art)}
-          style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#D43444', fontSize: 10, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 4, padding: 0 }}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#D43444', fontSize: 12, fontWeight: 700, display: 'flex', alignItems: 'center', gap: 4, padding: 0 }}
         >
           Read Full Analysis <ChevronRight size={13} />
         </button>
@@ -231,12 +332,12 @@ function FaqItem({ faq, idx, t }) {
         onClick={() => setOpen(!open)}
         style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '18px 20px', cursor: 'pointer' }}
       >
-        <span style={{ fontFamily: "'Cinzel', serif", fontSize: 13, fontWeight: 800, color: t.text, paddingRight: 16, lineHeight: 1.4 }}>{faq.question}</span>
+        <span style={{ fontFamily: "'Cinzel', serif", fontSize: 15, fontWeight: 800, color: t.text, paddingRight: 16, lineHeight: 1.4 }}>{faq.question}</span>
         <ChevronDown size={16} color="#D43444" style={{ flexShrink: 0, transform: open ? 'rotate(180deg)' : 'none', transition: 'transform 0.3s' }} />
       </div>
       <div style={{ maxHeight: open ? 200 : 0, overflow: 'hidden', transition: 'max-height 0.4s ease' }}>
         <div style={{ borderTop: `1px solid ${t.border}`, padding: '16px 20px' }}>
-          <p style={{ fontSize: 12, fontWeight: 300, lineHeight: 1.7, color: t.textMuted, margin: 0 }}>{faq.answer}</p>
+          <p style={{ fontSize: 13, fontWeight: 300, lineHeight: 1.7, color: t.textMuted, margin: 0 }}>{faq.answer}</p>
         </div>
       </div>
     </div>
@@ -261,8 +362,8 @@ function HomeContactInfoCard({ item, t }) {
         {React.cloneElement(item.icon, { color: hov ? '#fff' : '#D43444' })}
       </div>
       <div>
-        <p style={{ fontSize: 9, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#9CA3AF', marginBottom: 4 }}>{item.label}</p>
-        <p style={{ fontSize: 12, fontWeight: 400, color: t.text, lineHeight: 1.6 }}>{item.value}</p>
+        <p style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#9CA3AF', marginBottom: 4 }}>{item.label}</p>
+        <p style={{ fontSize: 14, fontWeight: 400, color: t.text, lineHeight: 1.6 }}>{item.value}</p>
       </div>
     </div>
   );
@@ -285,11 +386,11 @@ function HomeContactForm({ t, isDark, handleNavClick }) {
     width: '100%', boxSizing: 'border-box',
     background: t.inputBg, color: t.text,
     border: `1px solid ${t.border}`, borderRadius: 8,
-    padding: '11px 14px', fontSize: 12, outline: 'none',
+    padding: '11px 14px', fontSize: 15, outline: 'none',
     transition: 'border-color 0.2s',
     fontFamily: "'Plus Jakarta Sans', sans-serif",
   };
-  const labelStyle = { display: 'block', fontSize: 8, fontWeight: 700, color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 5 };
+  const labelStyle = { display: 'block', fontSize: 11, fontWeight: 700, color: '#9CA3AF', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 5 };
 
   return (
     <div style={{ background: t.cardBg, border: `1px solid ${t.border}`, borderRadius: 20, padding: '36px 36px', boxShadow: isDark ? '0 8px 40px rgba(0,0,0,0.3)' : '0 8px 40px rgba(0,0,0,0.08)' }}>
@@ -319,11 +420,11 @@ function HomeContactForm({ t, isDark, handleNavClick }) {
           </div>
           <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
             <PrimaryButton style={{ flex: 1, padding: '13px 0', minWidth: 160 }}>Send Enquiry</PrimaryButton>
-            <button type="button" onClick={() => handleNavClick('Contact')} style={{ flex: 1, minWidth: 140, padding: '13px 0', background: 'none', border: `1px solid ${t.border}`, borderRadius: 6, cursor: 'pointer', fontSize: 9, fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', color: t.textMuted, transition: 'all 0.2s' }}>
+            <button type="button" onClick={() => handleNavClick('Contact')} style={{ flex: 1, minWidth: 140, padding: '13px 0', background: 'none', border: `1px solid ${t.border}`, borderRadius: 6, cursor: 'pointer', fontSize: 11, fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', color: t.textMuted, transition: 'all 0.2s' }}>
               Full Contact Page →
             </button>
           </div>
-          <p style={{ fontSize: 9, color: t.textLight, textAlign: 'center', fontWeight: 300 }}>
+          <p style={{ fontSize: 11, color: t.textLight, textAlign: 'center', fontWeight: 300 }}>
            Your enquiry is strictly confidential. Conflicts clearance within 4 business hours.
           </p>
         </form>
@@ -389,7 +490,7 @@ function AboutSection({ t, isDark, handleNavClick }) {
           }}>
             <Award size={16} color="#fff" style={{ flexShrink: 0 }} />
             <span style={{
-              fontSize: 12, fontWeight: 800, letterSpacing: '0.1em',
+              fontSize: 14, fontWeight: 800, letterSpacing: '0.1em',
               textTransform: 'uppercase', color: '#fff',
             }}>
               Supreme &amp; High Court WA
@@ -428,7 +529,7 @@ function AboutSection({ t, isDark, handleNavClick }) {
 
           {/* Bio paragraph */}
           <p style={{
-            fontSize: 13.5, fontWeight: 300, lineHeight: 1.85,
+            fontSize: 16, fontWeight: 300, lineHeight: 1.85,
             color: t.textMuted, marginBottom: 28,
             borderLeft: '2px solid #D43444', paddingLeft: 16,
           }}>
@@ -456,7 +557,7 @@ function AboutSection({ t, isDark, handleNavClick }) {
                 }}>
                   <Check size={12} color="#D43444" strokeWidth={3} />
                 </div>
-                <span style={{ fontSize: 12, fontWeight: 500, color: t.text }}>{feat}</span>
+                <span style={{ fontSize: 14, fontWeight: 500, color: t.text }}>{feat}</span>
               </div>
             ))}
           </div>
@@ -467,7 +568,7 @@ function AboutSection({ t, isDark, handleNavClick }) {
             border: `1px solid ${isDark ? 'rgba(212,52,68,0.15)' : '#FECACA'}`,
             borderRadius: 10, padding: '14px 18px', marginBottom: 32,
           }}>
-            <p style={{ fontSize: 9, fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#D43444', marginBottom: 10 }}>Admitted Practitioner</p>
+            <p style={{ fontSize: 11, fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#D43444', marginBottom: 10 }}>Admitted Practitioner</p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {[
                 'Supreme Court of Western Australia (March 2012)',
@@ -476,7 +577,7 @@ function AboutSection({ t, isDark, handleNavClick }) {
               ].map(r => (
                 <div key={r} style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
                   <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#D43444', flexShrink: 0, marginTop: 5 }} />
-                  <span style={{ fontSize: 11, color: t.textMuted, fontWeight: 300 }}>{r}</span>
+                  <span style={{ fontSize: 14, color: t.textMuted, fontWeight: 300 }}>{r}</span>
                 </div>
               ))}
             </div>
@@ -484,7 +585,7 @@ function AboutSection({ t, isDark, handleNavClick }) {
 
           {/* CTA button */}
           <div>
-            <PrimaryButton onClick={() => handleNavClick('Contact')} style={{ padding: '13px 32px', fontSize: 11 }}>
+            <PrimaryButton onClick={() => handleNavClick('Contact')} style={{ padding: '13px 32px', fontSize: 13 }}>
               Book Free Consultation »
             </PrimaryButton>
           </div>
@@ -547,7 +648,7 @@ export default function App() {
     width: '100%', boxSizing: 'border-box',
     background: t.inputBg, color: t.text,
     border: `1px solid ${t.border}`, borderRadius: 6,
-    padding: '10px 12px', fontSize: 12,
+    padding: '10px 12px', fontSize: 14,
     outline: 'none', transition: 'border-color 0.2s',
     fontFamily: "'Plus Jakarta Sans', sans-serif",
   };
@@ -585,7 +686,7 @@ export default function App() {
           </nav>
           <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
             <ThemeToggle isDark={isDark} setIsDark={setIsDark} scrolled={scrolled} t={t} />
-            <a href="tel:0865578939" style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.12em', textDecoration: 'none', color: scrolled ? t.text : '#fff', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <a href="tel:0865578939" style={{ fontSize: 14, fontWeight: 700, letterSpacing: '0.12em', textDecoration: 'none', color: scrolled ? t.text : '#fff', display: 'flex', alignItems: 'center', gap: 8 }}>
               <Phone size={13} color="#D43444" />
               (08) 6557 8939
             </a>
@@ -675,7 +776,7 @@ export default function App() {
       >
         <p
           style={{
-            fontSize: 9,
+            fontSize: 11,
             textTransform: 'uppercase',
             letterSpacing: '0.15em',
             color: '#D43444',
@@ -687,7 +788,7 @@ export default function App() {
         </p>
         <p
           style={{
-            fontSize: 11,
+            fontSize: 14,
             fontWeight: 600,
             color: t.text,
           }}
@@ -731,7 +832,7 @@ export default function App() {
               <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px' }}>
                 <div style={{ textAlign: 'center', marginBottom: 40 }}>
                   <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: 'clamp(1.2rem, 2.5vw, 1.6rem)', fontWeight: 700, color: t.text, marginBottom: 8 }}>Specialized Areas of Focus</h3>
-                  <p style={{ fontSize: 12, fontWeight: 300, color: t.textMuted }}>Clean, highly protective structures designed for Western Australian compliance.</p>
+                  <p style={{ fontSize: 14, fontWeight: 300, color: t.textMuted }}>Clean, highly protective structures designed for Western Australian compliance.</p>
                 </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 24 }}>
                   {SERVICES_DATA.map(svc => <ServiceCard key={svc.id} svc={svc} t={t} handleNavClick={handleNavClick} />)}
@@ -743,7 +844,7 @@ export default function App() {
             <section style={{ padding: '80px 0' }}>
               <div style={{ maxWidth: 768, margin: '0 auto', padding: '0 24px' }}>
                 <div style={{ textAlign: 'center', marginBottom: 48 }}>
-                  <span style={{ fontSize: 10, letterSpacing: '0.15em', color: '#D43444', textTransform: 'uppercase', fontWeight: 900, background: isDark ? 'rgba(212,52,68,0.1)' : '#FFF0F1', padding: '4px 12px', borderRadius: 999, display: 'inline-block', marginBottom: 16 }}>Frequently Asked Questions</span>
+                  <span style={{ fontSize: 11, letterSpacing: '0.15em', color: '#D43444', textTransform: 'uppercase', fontWeight: 900, background: isDark ? 'rgba(212,52,68,0.1)' : '#FFF0F1', padding: '4px 12px', borderRadius: 999, display: 'inline-block', marginBottom: 16 }}>Frequently Asked Questions</span>
                   <h2 style={{ fontFamily: "'Cinzel', serif", fontSize: 'clamp(1.4rem, 3vw, 2rem)', fontWeight: 800, color: t.text }}>Professional Estate Insights</h2>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -867,15 +968,15 @@ export default function App() {
           <section style={{ padding: '120px 0 80px' }}>
             <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px' }}>
               <div style={{ textAlign: 'center', maxWidth: 560, margin: '0 auto 48px' }}>
-                <span style={{ fontSize: 10, letterSpacing: '0.15em', color: '#D43444', textTransform: 'uppercase', fontWeight: 900, background: isDark ? 'rgba(212,52,68,0.1)' : '#FFF0F1', padding: '4px 12px', borderRadius: 999, display: 'inline-block', marginBottom: 16 }}>Secure Intake</span>
+                <span style={{ fontSize: 12, letterSpacing: '0.15em', color: '#D43444', textTransform: 'uppercase', fontWeight: 900, background: isDark ? 'rgba(212,52,68,0.1)' : '#FFF0F1', padding: '4px 12px', borderRadius: 999, display: 'inline-block', marginBottom: 16 }}>Secure Intake</span>
                 <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: 'clamp(2rem, 4vw, 2.8rem)', fontWeight: 800, color: t.text, marginBottom: 12 }}>Connect With Our Team</h1>
-                <p style={{ fontSize: 12, fontWeight: 300, color: t.textMuted }}>Initiate case verification. Conflicts clearance is handled rapidly within 4 business hours.</p>
+                <p style={{ fontSize: 14, fontWeight: 300, color: t.textMuted }}>Initiate case verification. Conflicts clearance is handled rapidly within 4 business hours.</p>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr', gap: 48, alignItems: 'start' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
                   <div>
                     <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: 20, fontWeight: 700, color: t.text, marginBottom: 12 }}>Headquarters</h3>
-                    <p style={{ fontSize: 12, fontWeight: 300, lineHeight: 1.7, color: t.textMuted }}>Located centrally on St Georges Terrace in Perth CBD, we advise executors and private families across Western Australia.</p>
+                    <p style={{ fontSize: 14, fontWeight: 300, lineHeight: 1.7, color: t.textMuted }}>Located centrally on St Georges Terrace in Perth CBD, we advise executors and private families across Western Australia.</p>
                   </div>
                   {[
                     { label: 'Office Address', icon: <MapPin size={15} color="#D43444" style={{ flexShrink: 0, marginTop: 2 }} />, value: 'Level 25, 108 St Georges Terrace, Perth WA 6000' },
@@ -934,19 +1035,19 @@ export default function App() {
       </main>
 
       {/* ══════════════════ FOOTER ══════════════════ */}
-      <footer style={{ background: '#0F0F0F', color: '#fff', padding: '64px 0 32px', borderTop: '1px solid #1a1a1a' }}>
+      <footer style={{ background: '#0F0F0F', color: '#fff',     padding: '100px 0 150px', borderTop: '1px solid #1a1a1a' }}>
         <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '5fr 3fr 4fr', gap: 32, paddingBottom: 48, borderBottom: '1px solid #1a1a1a' }}>
             <div>
               <div onClick={() => handleNavClick('Home')} style={{ display: 'flex', alignItems: 'center', gap: 12, cursor: 'pointer', marginBottom: 16 }}>
                 <img src={LOGO_URL} alt="Crabtree Legal" style={{ width: 36, height: 36, objectFit: 'contain', filter: 'brightness(1.1)' }} />
-                <span style={{ fontFamily: "'Cinzel', serif", fontSize: 14, fontWeight: 800, letterSpacing: '0.2em', color: '#fff' }}>CRABTREE <span style={{ color: '#D43444' }}>LEGAL</span></span>
+                <span style={{ fontFamily: "'Cinzel', serif", fontSize: 18, fontWeight: 800, letterSpacing: '0.2em', color: '#fff' }}>CRABTREE <span style={{ color: '#D43444' }}>LEGAL</span></span>
               </div>
-              <p style={{ fontSize: 12, color: '#9CA3AF', lineHeight: 1.7, fontWeight: 300, maxWidth: 340, marginBottom: 16 }}>Helping families, executors, retirees, and business owners protect what matters most through precise, strategic legal advice.</p>
-              <p style={{ fontSize: 9, color: '#6B7280', fontWeight: 300 }}>&copy; {new Date().getFullYear()} Crabtree Legal Pty Ltd. All Rights Reserved.</p>
+              <p style={{ fontSize: 16, color: '#9CA3AF', lineHeight: 1.7, fontWeight: 300, maxWidth: 340, marginBottom: 16 }}>Helping families, executors, retirees, and business owners protect what matters most through precise, strategic legal advice.</p>
+              <p style={{ fontSize: 14, color: '#6B7280', fontWeight: 300 }}>&copy; {new Date().getFullYear()} Crabtree Legal Pty Ltd. All Rights Reserved.</p>
             </div>
             <div>
-              <h4 style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 900, color: '#D1D5DB', marginBottom: 16 }}>Navigation Map</h4>
+              <h4 style={{ fontSize: 16, textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 900, color: '#D1D5DB', marginBottom: 16 }}>Navigation Map</h4>
               <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {NAV_ITEMS.map(item => (
                   <li key={item}><FooterNavLink label={item} onClick={() => handleNavClick(item)} /></li>
@@ -954,14 +1055,14 @@ export default function App() {
               </ul>
             </div>
             <div>
-              <h4 style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 900, color: '#D1D5DB', marginBottom: 16 }}>WA Regulations</h4>
-              <p style={{ fontSize: 9, color: '#6B7280', lineHeight: 1.7, marginBottom: 12 }}>Liability limited by a scheme approved under Professional Standards Legislation. Legal practitioners of Crabtree Legal are governed by the Legal Practice Board of Western Australia.</p>
-              <p style={{ fontSize: 9, color: '#6B7280', lineHeight: 1.7 }}>We acknowledge the Whadjuk Noongar people, traditional custodians of the land on which our Perth CBD chambers are established.</p>
+              <h4 style={{ fontSize: 16, textTransform: 'uppercase', letterSpacing: '0.15em', fontWeight: 900, color: '#D1D5DB', marginBottom: 16 }}>WA Regulations</h4>
+              <p style={{ fontSize: 14, color: '#6B7280', lineHeight: 1.7, marginBottom: 12 }}>Liability limited by a scheme approved under Professional Standards Legislation. Legal practitioners of Crabtree Legal are governed by the Legal Practice Board of Western Australia.</p>
+              <p style={{ fontSize: 14, color: '#6B7280', lineHeight: 1.7 }}>We acknowledge the Whadjuk Noongar people, traditional custodians of the land on which our Perth CBD chambers are established.</p>
             </div>
           </div>
           <div style={{ paddingTop: 24, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 12 }}>
-            <p style={{ fontSize: 9, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 700 }}>Designed for absolute precision, stability and uncompromised security.</p>
-            <div style={{ display: 'flex', gap: 16, fontSize: 9, color: '#6B7280', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+            <p style={{ fontSize: 14, color: '#6B7280', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 700 }}>Designed for absolute precision, stability and uncompromised security.</p>
+            <div style={{ display: 'flex', gap: 16, fontSize: 14, color: '#6B7280', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em' }}>
               <FooterNavLink label="Privacy Charter" onClick={() => {}} small />
               <span>•</span>
               <FooterNavLink label="Client Terms" onClick={() => {}} small />
@@ -1012,7 +1113,7 @@ function TextLinkButton({ children, onClick }) {
 function FooterNavLink({ label, onClick, small }) {
   const [hov, hovProps] = useHover();
   return (
-    <button onClick={onClick} {...hovProps} style={{ background: 'none', border: 'none', cursor: 'pointer', color: hov ? '#D43444' : '#9CA3AF', fontSize: small ? 9 : 12, fontWeight: small ? 700 : 400, transition: 'color 0.2s', padding: 0, textTransform: small ? 'uppercase' : 'none', letterSpacing: small ? '0.1em' : 'normal' }}>
+    <button onClick={onClick} {...hovProps} style={{ background: 'none', border: 'none', cursor: 'pointer', color: hov ? '#D43444' : '#9CA3AF', fontSize: small ? 11 : 14, fontWeight: small ? 700 : 400, transition: 'color 0.2s', padding: 0, textTransform: small ? 'uppercase' : 'none', letterSpacing: small ? '0.1em' : 'normal' }}>
       {label}
     </button>
   );
