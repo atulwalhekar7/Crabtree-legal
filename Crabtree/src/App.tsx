@@ -1202,15 +1202,14 @@ export default function App() {
           ))}
         </div>
 
-        <div style={{ position: 'relative', zIndex: 20, width: '100%', maxWidth: 1200, margin: '0 auto', padding: '80px 44px', display: 'grid', gridTemplateColumns: '1fr 440px', alignItems: 'center', gap: 52, minHeight: '96vh' }}>
-          
+        <div style={{ position: 'relative', zIndex: 20, width: '100%', maxWidth: 1300, margin: '0 auto', padding: '80px 44px', display: 'grid', gridTemplateColumns: '1fr 720px', alignItems: 'center', gap: 52, minHeight: '96vh' }}>
+
           {/* LEFT CONTENT PANEL */}
           <div style={{ animation: 'fadeInUp 0.9s ease both' }}>
             <p style={{ color: '#D43444', fontSize: 11, fontWeight: 900, letterSpacing: '0.22em', textTransform: 'uppercase', marginBottom: 12 }}>{CAROUSEL_SLIDES[currentSlide].accent}</p>
             <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: 'clamp(1.8rem, 4vw, 3.2rem)', color: '#fff', fontWeight: 800, lineHeight: 1.1, letterSpacing: '-0.01em', marginBottom: 18 }}>{CAROUSEL_SLIDES[currentSlide].title}</h1>
             <p style={{ fontSize: 15, color: '#D1D5DB', fontWeight: 300, lineHeight: 1.8, maxWidth: 460, marginBottom: 30 }}>{CAROUSEL_SLIDES[currentSlide].subtitle}</p>
             <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-              <PrimaryButton onClick={() => handleNavClick('Contact')} style={{ padding: '14px 28px' }}>Book a Consultation</PrimaryButton>
               <OutlineButton onClick={() => handleNavClick('Services')} style={{ padding: '14px 28px' }}>Our Practice Areas</OutlineButton>
             </div>
           </div>
@@ -1234,17 +1233,19 @@ export default function App() {
               borderRadius: 20, 
               overflow: 'hidden', 
               border: `1px solid ${isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)'}`,
+              display: 'flex',
+              flexDirection: 'row',
               boxShadow: isDark 
                 ? '0 30px 60px -15px rgba(0,0,0,0.8), 0 0 0 1px rgba(212,52,68,0.15)' 
                 : '0 30px 60px -15px rgba(0,0,0,0.25)'
             }}>
-              
-              {/* Profile Image Container - Maximized Height & Focus */}
-              <div style={{ position: 'relative', width: '100%', height: 320, overflow: 'hidden',marginTop: -4 }}>
-                <img 
+
+              {/* LEFT COLUMN: Profile Image & Identity */}
+              <div style={{ position: 'relative', width: 240, flexShrink: 0, display: 'flex', flexDirection: 'column', background: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)', borderRight: `1px solid ${t.border}` }}>
+                <img
                   src={OWNER_PHOTO_URL} 
                   alt="Jonathan Crabtree" 
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'top center' }} 
+                  style={{ width: '100%', height: 260, objectFit: 'cover', objectPosition: 'top center' }} 
                 />
                 {/* Subtle, High-End Shadow Gradient Overlay inside image bottom */}
                 <div style={{ 
@@ -1253,16 +1254,13 @@ export default function App() {
                   left: 0, 
                   right: 0, 
                   height: '40%', 
-                  background: isDark 
-                    ? 'linear-gradient(to top, #141414 0%, transparent 100%)' 
-                    : 'linear-gradient(to top, #ffffff 0%, transparent 100%)'
                 }} />
                 
-                {/* Minimalist Court Badge Anchored Cleanly to Top Left */}
-                <div style={{ 
+                {/* Minimalist Court Badge Anchored Cleanly to Top Right */}
+                {/* <div style={{ 
                   position: 'absolute', 
                   top: 16, 
-                  left: 16, 
+                  right: 16, 
                   background: 'rgba(0,0,0,0.75)', 
                   backdropFilter: 'blur(8px)',
                   border: '1px solid rgba(255,255,255,0.15)',
@@ -1271,27 +1269,28 @@ export default function App() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: 6
-                }}>
-                  <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#D43444' }} />
+                }}> */}
+                  {/* <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#D43444' }} />
                   <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#fff' }}>
                     Supreme Court WA
                   </span>
-                </div>
-              </div>
+                </div> */}
 
-              {/* Identity & Details Section */}
-              <div style={{ padding: '28px 28px 24px' }}>
-                
-                {/* Typography Block */}
-                <div style={{ marginBottom: 18 }}>
+                {/* Identity Block - Moved below image */}
+                <div style={{ padding: '24px 28px' }}>
                   <h3 style={{ fontFamily: "'Cinzel', serif", fontSize: 22, fontWeight: 800, color: t.text, letterSpacing: '0.02em', marginBottom: 4 }}>
                     Jonathan Crabtree
                   </h3>
-                  <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#D43444' }}>
+                  <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: '#D43444', margin: 0 }}>
                     Commercial &amp; Estate Lawyer
                   </p>
                 </div>
+              </div>
 
+              {/* RIGHT COLUMN: Professional Details */}
+              <div style={{ padding: '36px', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+                
+                
                 {/* Director Description Statement */}
                 <p style={{ 
                   fontSize: 13, 
@@ -1302,8 +1301,7 @@ export default function App() {
                   paddingLeft: 14,
                   marginBottom: 22
                 }}>
-                  Protecting WA families and corporate businesses through expert succession planning and tailored, high-net-worth Will asset structures.
-                </p>
+Protecting Western Australia families and corporate businesses through expert succession planning and bespoke, high-net-worth Will and asset structuring strategies that safeguard wealth, optimise estate outcomes, and ensure seamless intergenerational transfer of assets with clarity and confidence.                </p>
 
                 {/* Grid Capabilities Checklist */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 16px', marginBottom: 24 }}>
