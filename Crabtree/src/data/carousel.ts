@@ -1,9 +1,6 @@
-import type { CarouselSlide } from '../hooks/types';
-
-
-export const CAROUSEL_SLIDES: CarouselSlide[] = [
+export const CAROUSEL_SLIDES = [
   {
-    title: 'Protect What Matters Most',
+    title: 'A law firm that proud to serve',
     subtitle:
       'Trusted legal guidance for wills, estate planning, probate and business succession throughout Perth.',
     image:

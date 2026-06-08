@@ -1,21 +1,19 @@
-import type { Theme, ColorTokens } from '../hooks/types';
+export const ACCENT = '#D43444';
+export const ACCENT_HOVER = '#b02c38';
 
-
-export const getColors = (theme: Theme): ColorTokens => ({
-  bg:        theme === 'dark' ? 'bg-[#121212]'      : 'bg-white',
-  bgAlt:     theme === 'dark' ? 'bg-[#1C1C1C]'      : 'bg-[#F8F8F8]',
-  text:      theme === 'dark' ? 'text-[#F5F5F5]'    : 'text-[#2B2B2B]',
-  textMuted: theme === 'dark' ? 'text-[#B0B0B0]'    : 'text-gray-600',
-  textLight: theme === 'dark' ? 'text-gray-400'      : 'text-gray-500',
-  border:    theme === 'dark' ? 'border-[#2D2D2D]'   : 'border-gray-200',
-  cardBg:    theme === 'dark' ? 'bg-[#1A1A1A]'       : 'bg-white',
-  navBg:     theme === 'dark' ? 'bg-[#121212]/95'    : 'bg-white/95',
+export const getTheme = (isDark: boolean) => ({
+  bg: isDark ? '#121212' : '#ffffff',
+  bgAlt: isDark ? '#1C1C1C' : '#F8F8F8',
+  cardBg: isDark ? '#1A1A1A' : '#ffffff',
+  navBg: isDark ? 'rgba(18,18,18,0.96)' : 'rgba(255,255,255,0.96)',
+  text: isDark ? '#F5F5F5' : '#2B2B2B',
+  textMuted: isDark ? '#B0B0B0' : '#4B5563',
+  textLight: isDark ? '#888888' : '#6B7280',
+  border: isDark ? '#2D2D2D' : '#E5E7EB',
+  inputBg: isDark ? '#242424' : '#ffffff',
+  accent: ACCENT,
+  accentHover: ACCENT_HOVER,
+  isDark,
 });
 
-export const NAV_ITEMS = [
-  'Home',
-  'About',
-  'Services',
-  'News & Articles',
-  'Contact',
-] as const;
+export type Theme = ReturnType<typeof getTheme>;

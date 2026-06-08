@@ -1,5 +1,8 @@
-// Intentionally empty placeholder.
-// (Do not add module augmentation for react here.)
-export {};
-
-
+declare module '*.png' {
+  const value: string;
+  export default value;
+}
+declare module '*.svg' {
+  const value: string;
+  export default value;
+}

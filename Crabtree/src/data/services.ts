@@ -1,9 +1,6 @@
-import type { Service } from '../hooks/types';
-
-
-export const SERVICES_DATA: Service[] = [
+export const SERVICES_DATA = [
   {
-    id: 'wills-planning',
+    id: 'Commercial Law',
     category: 'Succession & Estates',
     title: 'Wills, Estates & Succession',
     subtitle: 'Structured solutions to protect and transfer your lifetime wealth cleanly.',
@@ -19,23 +16,7 @@ export const SERVICES_DATA: Service[] = [
     ],
   },
   {
-    id: 'probate-admin',
-    category: 'Succession & Estates',
-    title: 'Probate & Letters of Administration',
-    subtitle: 'Guiding executors and families through Supreme Court administration.',
-    image:
-      'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=800',
-    points: [
-      'Applications for Grants of Probate',
-      'Applications for Letters of Administration',
-      'Deceased Estate Asset Distribution',
-      'Executor Support & Liability Mitigation',
-      'Superannuation Death Benefit claims',
-      'Trust Estate Transfers',
-    ],
-  },
-  {
-    id: 'commercial-law',
+    id: 'Wills, Estate and Succession Planning',
     category: 'Commercial Law',
     title: 'Commercial & Business Structuring',
     subtitle: 'Providing legal and corporate drafting for robust business operations.',
