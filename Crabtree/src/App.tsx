@@ -142,8 +142,8 @@ function ServiceCard({ svc, t, handleNavClick }: { svc: (typeof SERVICES_DATA)[n
         height: '100%'
       }}
     >
-      {/* ── IMAGE WRAPPER (Height Increased to 320px for cinematic presence) ── */}
-      <div style={{ height: 320, position: 'relative', overflow: 'hidden' }}>
+      {/* ── IMAGE WRAPPER (Height Minimized) ── */}
+      <div style={{ height: 220, position: 'relative', overflow: 'hidden' }}>
         {/* Base Standard Image */}
         <img 
           src={svc.image} 
@@ -211,14 +211,14 @@ function ServiceCard({ svc, t, handleNavClick }: { svc: (typeof SERVICES_DATA)[n
       </div>
 
       {/* ── CARD MAIN BODY CONTENT ── */}
-      <div style={{ padding: '36px 36px 0', flex: 1, display: 'flex', flexDirection: 'column' }}>
+      <div style={{ padding: '24px 24px 0', flex: 1, display: 'flex', flexDirection: 'column' }}>
         {/* Heading & Subtitle Container */}
-        <div style={{ marginBottom: 20 }}>
+        <div style={{ marginBottom: 12 }}>
           <h3 style={{ 
             fontFamily: "'Cinzel', serif", 
-            fontSize: 24, // Increased Font Size
+            fontSize: 21, 
             fontWeight: 800, 
-            margin: '0 0 12px', 
+            margin: '0 0 8px', 
             color: hov ? '#D43444' : t.text, 
             letterSpacing: '0.02em',
             transition: 'color 0.35s ease',
@@ -227,7 +227,7 @@ function ServiceCard({ svc, t, handleNavClick }: { svc: (typeof SERVICES_DATA)[n
             {svc.title}
           </h3>
           <p style={{ 
-            fontSize: 16, // Increased Font Size
+            fontSize: 14, 
             fontWeight: 400, 
             lineHeight: 1.7, 
             color: t.textLight, 
@@ -242,14 +242,14 @@ function ServiceCard({ svc, t, handleNavClick }: { svc: (typeof SERVICES_DATA)[n
           width: hov ? '100%' : '56px', // Wider default base marker
           height: '2px',
           background: '#D43444',
-          marginBottom: 26,
+          marginBottom: 16,
           transition: 'width 0.5s cubic-bezier(0.16, 1, 0.3, 1)'
         }} />
 
         {/* Practice Capabilities List Area */}
         <div style={{ 
           borderTop: `1px solid ${hov ? 'rgba(212,52,68,0.2)' : t.border}`, 
-          paddingTop: 24, 
+          paddingTop: 16, 
           transition: 'border-color 0.35s',
           flex: 1
         }}>
@@ -260,7 +260,7 @@ function ServiceCard({ svc, t, handleNavClick }: { svc: (typeof SERVICES_DATA)[n
                 display: 'flex', 
                 alignItems: 'flex-start', 
                 gap: 14, 
-                marginBottom: 14, // Extra spacing between list elements
+                marginBottom: 8, 
                 transform: hov ? 'translateX(8px)' : 'translateX(0)', 
                 transition: `transform 0.45s cubic-bezier(0.16, 1, 0.3, 1) ${idx * 0.035}s` 
               }}
@@ -283,7 +283,7 @@ function ServiceCard({ svc, t, handleNavClick }: { svc: (typeof SERVICES_DATA)[n
                 <Check size={11} color={hov ? '#fff' : '#D43444'} strokeWidth={3.5} />
               </div>
               <span style={{ 
-                fontSize: 15, // Increased text size from 13 to 15
+                fontSize: 13, 
                 color: hov ? t.text : t.textLight, 
                 fontWeight: hov ? 500 : 400,
                 lineHeight: 1.5,
@@ -297,7 +297,7 @@ function ServiceCard({ svc, t, handleNavClick }: { svc: (typeof SERVICES_DATA)[n
       </div>
 
       {/* ── CARD ACTION BUTTON FOOTER ── */}
-      <div style={{ padding: '28px 36px 36px' }}>
+      <div style={{ padding: '16px 24px 24px' }}>
         <button 
           {...btnHovProps} 
           onClick={() => handleNavClick('Contact')} 
@@ -307,7 +307,7 @@ function ServiceCard({ svc, t, handleNavClick }: { svc: (typeof SERVICES_DATA)[n
             color: btnHov ? '#fff' : '#D43444', 
             border: `1px solid ${btnHov ? '#D43444' : 'rgba(212,52,68,0.25)'}`, 
             cursor: 'pointer', 
-            padding: '15px 0', // Higher vertical pad for tactile importance
+            padding: '12px 0', 
             borderRadius: 12, 
             fontSize: 13, // Scaled slightly higher
             fontWeight: 800, 
@@ -1891,7 +1891,7 @@ Protecting Western Australia families and corporate businesses through expert su
     </div>
 
     {/* Bottom Structural Legals Strip */}
-    <div style={{ paddingTop: 36, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 20 }}>
+    <div style={{ paddingTop: 20, display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 20 }}>
       <p style={{ fontSize: 13, color: '#555555', textTransform: 'uppercase', letterSpacing: '0.12em', fontWeight: 700, margin: 0 }}>
         &copy; {new Date().getFullYear()} Crabtree Legal Pty Ltd. All Rights Reserved.
       </p>
