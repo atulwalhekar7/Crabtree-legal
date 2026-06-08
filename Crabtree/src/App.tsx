@@ -1202,7 +1202,7 @@ export default function App() {
           ))}
         </div>
 
-        <div style={{ position: 'relative', zIndex: 20, width: '100%', maxWidth: 1300, margin: '0 auto', padding: '80px 44px', display: 'grid', gridTemplateColumns: '1fr 720px', alignItems: 'center', gap: 52, minHeight: '96vh' }}>
+        <div style={{ position: 'relative', zIndex: 20, width: '100%', maxWidth: 1300, margin: '0 auto', padding: '180px 44px 120px', display: 'grid', gridTemplateColumns: '1fr 720px', alignItems: 'center', gap: 52, minHeight: '96vh' }}>
 
           {/* LEFT CONTENT PANEL */}
           <div style={{ animation: 'fadeInUp 0.9s ease both' }}>
@@ -1219,7 +1219,8 @@ export default function App() {
             style={{ 
               position: 'relative', 
               animation: 'fadeInUp 1s ease 0.25s both',
-              transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease'
+              transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease',
+              marginBottom: 100
             }}
             onMouseEnter={e => {
               e.currentTarget.style.transform = 'translateY(-6px)';
@@ -1241,12 +1242,30 @@ export default function App() {
             }}>
 
               {/* LEFT COLUMN: Profile Image & Identity */}
-              <div style={{ position: 'relative', width: 240, flexShrink: 0, display: 'flex', flexDirection: 'column', background: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)', borderRight: `1px solid ${t.border}` }}>
-                <img
-                  src={OWNER_PHOTO_URL} 
-                  alt="Jonathan Crabtree" 
-                  style={{ width: '100%', height: 260, objectFit: 'cover', objectPosition: 'top center' }} 
-                />
+              <div style={{ position: 'relative', width: 240, flexShrink: 0, display: 'flex', flexDirection: 'column', background: isDark ? 'rgba(255,255,255,0.02)' : 'rgba(0,0,0,0.02)', borderRight: `1px solid ${t.border}`, paddingTop: 40 }}>
+                <div style={{ width: '100%', height: 236, overflow: 'visible' }}>
+                  <img
+                    src={OWNER_PHOTO_URL} 
+                    alt="Jonathan Crabtree" 
+                    style={{ 
+                      width: '100%', 
+                      height: '100%', 
+                      objectFit: 'cover', 
+                      objectPosition: 'top center',
+                      transition: 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease',
+                      cursor: 'pointer',
+                      zIndex: 10
+                    }} 
+                    onMouseEnter={e => {
+                      e.currentTarget.style.transform = 'scale(1.15) translateY(-8px)';
+                      e.currentTarget.style.filter = 'drop-shadow(0 20px 30px rgba(0,0,0,0.4))';
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.transform = 'scale(1) translateY(0)';
+                      e.currentTarget.style.filter = 'none';
+                    }}
+                  />
+                </div>
                 {/* Subtle, High-End Shadow Gradient Overlay inside image bottom */}
                 <div style={{ 
                   position: 'absolute', 
