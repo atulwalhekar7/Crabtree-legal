@@ -466,7 +466,10 @@ function FaqItem({ faq, t }: { faq: (typeof FAQS)[number]; idx: number; t: Theme
 }
 
 // ─── HomeContactInfoCard ──────────────────────────────────────────────────────
+// NOTE: Kept for future use; not currently rendered on Home.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function HomeContactInfoCard({ item, t }: { item: { label: string; value: string; icon: React.ReactElement<{ color?: string }> }; t: Theme }) {
+
   const [hov, hovProps] = useHover();
   return (
     <div {...hovProps} style={{ background: t.cardBg, border: `1px solid ${hov ? '#D43444' : t.border}`, borderRadius: 14, padding: '20px 22px', display: 'flex', alignItems: 'flex-start', gap: 16, boxShadow: hov ? '0 10px 32px rgba(212,52,68,0.14)' : '0 2px 8px rgba(0,0,0,0.05)', transform: hov ? 'translateY(-3px)' : 'none', transition: 'all 0.28s ease', cursor: 'default' }}>
@@ -860,10 +863,27 @@ function FilterButton({ label, active, onClick, t }: { label: string; active: bo
 }
 
 // ─── FooterNavLink ────────────────────────────────────────────────────────────
-function FooterNavLink({ label, onClick, small }: { label: string; onClick: () => void; small?: boolean }) {
+function FooterNavLink({ label, onClick, small, style }: { label: string; onClick: () => void; small?: boolean; style?: React.CSSProperties }) {
+
   const [hov, hovProps] = useHover();
-  return (
-    <button onClick={onClick} {...hovProps} style={{ background: 'none', border: 'none', cursor: 'pointer', color: hov ? '#D43444' : '#9CA3AF', fontSize: small ? 11 : 14, fontWeight: small ? 700 : 400, transition: 'color 0.2s', padding: 0, textTransform: small ? 'uppercase' : 'none', letterSpacing: small ? '0.1em' : 'normal' }}>
+return (
+    <button
+      onClick={onClick}
+      {...hovProps}
+      style={{
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer',
+        color: hov ? '#D43444' : '#9CA3AF',
+        fontSize: small ? 11 : 14,
+        fontWeight: small ? 700 : 400,
+        transition: 'color 0.2s',
+        padding: 0,
+        textTransform: small ? 'uppercase' : 'none',
+        letterSpacing: small ? '0.1em' : 'normal',
+        ...(style ?? {}),
+      }}
+    >
       {label}
     </button>
   );
