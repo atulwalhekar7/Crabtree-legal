@@ -467,25 +467,28 @@ function FaqItem({ faq, t }: { faq: (typeof FAQS)[number]; idx: number; t: Theme
 
 // ─── HomeContactInfoCard ──────────────────────────────────────────────────────
 // NOTE: Kept for future use; not currently rendered on Home.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function HomeContactInfoCard({ item, t }: { item: { label: string; value: string; icon: React.ReactElement<{ color?: string }> | React.ReactElement }; t: Theme }) {
+// const HomeContactInfoCard = ({ item, t }: { item: { label: string; value: string; icon: React.ReactElement<{ color?: string }> | React.ReactElement }; t: Theme }) => {
 
-  const [hov, hovProps] = useHover();
-  return (
-    <div {...hovProps} style={{ background: t.cardBg, border: `1px solid ${hov ? '#D43444' : t.border}`, borderRadius: 14, padding: '20px 22px', display: 'flex', alignItems: 'flex-start', gap: 16, boxShadow: hov ? '0 10px 32px rgba(212,52,68,0.14)' : '0 2px 8px rgba(0,0,0,0.05)', transform: hov ? 'translateY(-3px)' : 'none', transition: 'all 0.28s ease', cursor: 'default' }}>
-      <div style={{ width: 42, height: 42, background: hov ? '#D43444' : (t.isDark ? 'rgba(212,52,68,0.12)' : '#FFF0F1'), borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'background 0.28s' }}>
-        {React.cloneElement(item.icon, { color: hov ? '#fff' : '#D43444' })}
-      </div>
-      <div>
-        <p style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#9CA3AF', marginBottom: 5 }}>{item.label}</p>
-        <p style={{ fontSize: 14, fontWeight: 400, color: t.text, lineHeight: 1.6 }}>{item.value}</p>
-      </div>
-    </div>
-  );
-}
+//   void item;
+//   void t;
+
+//   const [hov, hovProps] = useHover();
+//   return (
+//     <div {...hovProps} style={{ background: t.cardBg, border: `1px solid ${hov ? '#D43444' : t.border}`, borderRadius: 14, padding: '20px 22px', display: 'flex', alignItems: 'flex-start', gap: 16, boxShadow: hov ? '0 10px 32px rgba(212,52,68,0.14)' : '0 2px 8px rgba(0,0,0,0.05)', transform: hov ? 'translateY(-3px)' : 'none', transition: 'all 0.28s ease', cursor: 'default' }}>
+//       <div style={{ width: 42, height: 42, background: hov ? '#D43444' : (t.isDark ? 'rgba(212,52,68,0.12)' : '#FFF0F1'), borderRadius: 12, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, transition: 'background 0.28s' }}>
+// {React.cloneElement(item.icon as React.ReactElement<any>, { color: hov ? '#fff' : '#D43444' })}
+//       </div>
+//       <div>
+//         <p style={{ fontSize: 11, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#9CA3AF', marginBottom: 5 }}>{item.label}</p>
+//         <p style={{ fontSize: 14, fontWeight: 400, color: t.text, lineHeight: 1.6 }}>{item.value}</p>
+//       </div>
+//     </div>
+//   );
+// }
 
 // ─── HomeContactForm ──────────────────────────────────────────────────────────
 function HomeContactForm({ t, isDark, handleNavClick }: { t: Theme; isDark: boolean; handleNavClick: (tab: string) => void }) {
+  void handleNavClick;
   const [form, setForm] = useState({ firstName: '', lastName: '', email: '', phone: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => { e.preventDefault(); setSubmitted(true); setTimeout(() => { setSubmitted(false); setForm({ firstName: '', lastName: '', email: '', phone: '', message: '' }); }, 5000); };
@@ -573,7 +576,7 @@ function AboutSection({ t, isDark, handleNavClick }: { t: Theme; isDark: boolean
         transform: visible ? 'translateY(0)' : 'translateY(30px)', 
         transition: 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)' 
       }}>
-        <span style={{ 
+        {/* <span style={{ 
           fontSize: 11, 
           letterSpacing: '0.15em', 
           color: '#D43444', 
@@ -586,7 +589,7 @@ function AboutSection({ t, isDark, handleNavClick }: { t: Theme; isDark: boolean
           marginBottom: 18 
         }}>
           Meet Our Experienced Director
-        </span>
+        </span> */}
         <h2 style={{ 
           fontFamily: "'Cinzel', serif", 
           fontSize: 'clamp(2rem, 3.8vw, 2.8rem)', 
@@ -1602,7 +1605,7 @@ export default function App() {
           <section style={{ padding: '120px 0 80px' }}>
             <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px' }}>
               <div style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto 56px' }}>
-                <span style={{ fontSize: 10, letterSpacing: '0.15em', color: '#D43444', textTransform: 'uppercase', fontWeight: 900, background: isDark ? 'rgba(212,52,68,0.1)' : '#FFF0F1', padding: '4px 12px', borderRadius: 999, display: 'inline-block', marginBottom: 16 }}>Practice Areas</span>
+                {/* <span style={{ fontSize: 10, letterSpacing: '0.15em', color: '#D43444', textTransform: 'uppercase', fontWeight: 900, background: isDark ? 'rgba(212,52,68,0.1)' : '#FFF0F1', padding: '4px 12px', borderRadius: 999, display: 'inline-block', marginBottom: 16 }}>Practice Areas</span> */}
                 <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: 'clamp(2rem, 4vw, 2.8rem)', fontWeight: 800, color: t.text, marginBottom: 12 }}>Our Specialties</h1>
                 <p style={{ fontSize: 13, fontWeight: 300, color: t.textMuted, marginBottom: 24 }}>Practical advice and high-level legal drafting to achieve your personal and commercial objectives.</p>
                 <div style={{ display: 'flex', justifyContent: 'center', gap: 8, flexWrap: 'wrap' }}>
@@ -1630,7 +1633,7 @@ export default function App() {
               {!selectedArticle ? (
                 <>
                   <div style={{ textAlign: 'center', maxWidth: 600, margin: '0 auto 56px' }}>
-                    <span style={{ fontSize: 10, letterSpacing: '0.15em', color: '#D43444', textTransform: 'uppercase', fontWeight: 900, background: isDark ? 'rgba(212,52,68,0.1)' : '#FFF0F1', padding: '4px 12px', borderRadius: 999, display: 'inline-block', marginBottom: 16 }}>Knowledge Hub</span>
+                    {/* <span style={{ fontSize: 10, letterSpacing: '0.15em', color: '#D43444', textTransform: 'uppercase', fontWeight: 900, background: isDark ? 'rgba(212,52,68,0.1)' : '#FFF0F1', padding: '4px 12px', borderRadius: 999, display: 'inline-block', marginBottom: 16 }}>Knowledge Hub</span> */}
                     <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: 'clamp(2rem, 4vw, 2.8rem)', fontWeight: 800, color: t.text, marginBottom: 12 }}>News &amp; Articles</h1>
                     <p style={{ fontSize: 13, fontWeight: 300, color: t.textMuted, marginBottom: 24 }}>Articles and commentary designed to help elevate your strategic legal IQ.</p>
                     <input type="text" placeholder="Search articles, case reviews..." value={searchTerm} onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)} style={{ ...inputStyle, borderRadius: 999, textAlign: 'center', maxWidth: 420, display: 'block', margin: '0 auto' }} />
@@ -1666,7 +1669,7 @@ export default function App() {
           <section style={{ padding: '120px 0 80px' }}>
             <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 32px' }}>
               <div style={{ textAlign: 'center', maxWidth: 560, margin: '0 auto 56px' }}>
-                <span style={{ fontSize: 12, letterSpacing: '0.15em', color: '#D43444', textTransform: 'uppercase', fontWeight: 900, background: isDark ? 'rgba(212,52,68,0.1)' : '#FFF0F1', padding: '4px 12px', borderRadius: 999, display: 'inline-block', marginBottom: 16 }}>Secure Intake</span>
+                {/* <span style={{ fontSize: 12, letterSpacing: '0.15em', color: '#D43444', textTransform: 'uppercase', fontWeight: 900, background: isDark ? 'rgba(212,52,68,0.1)' : '#FFF0F1', padding: '4px 12px', borderRadius: 999, display: 'inline-block', marginBottom: 16 }}>Secure Intake</span> */}
                 <h1 style={{ fontFamily: "'Cinzel', serif", fontSize: 'clamp(2rem, 4vw, 2.8rem)', fontWeight: 800, color: t.text, marginBottom: 12 }}>Connect With Our Team</h1>
                 <p style={{ fontSize: 14, fontWeight: 300, color: t.textMuted }}>Initiate case verification. Conflicts clearance is handled rapidly within 4 business hours.</p>
               </div>
