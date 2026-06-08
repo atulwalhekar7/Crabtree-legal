@@ -1202,7 +1202,7 @@ export default function App() {
           ))}
         </div>
 
-        <div style={{ position: 'relative', zIndex: 20, width: '100%', maxWidth: 1300, margin: '0 auto', padding: '180px 44px 120px', display: 'grid', gridTemplateColumns: '1fr 720px', alignItems: 'center', gap: 52, minHeight: '96vh' }}>
+        <div style={{ position: 'relative', zIndex: 20, width: '100%', maxWidth: 1300, margin: '0 auto', padding: '120px 44px 10px', display: 'grid', gridTemplateColumns: '1fr 720px', alignItems: 'center', gap: 52, minHeight: '96vh' }}>
 
           {/* LEFT CONTENT PANEL */}
           <div style={{ animation: 'fadeInUp 0.9s ease both' }}>
@@ -1417,7 +1417,7 @@ Protecting Western Australia families and corporate businesses through expert su
           {/* ─── CONTACT US SECTION ─── */}
 <section 
   style={{ 
-    padding: '100px 0 120px', 
+    padding: '70px 0 120px', 
     background: t.bg,
     position: 'relative',
     overflow: 'hidden'
@@ -1854,7 +1854,7 @@ Protecting Western Australia families and corporate businesses through expert su
       {/* COLUMN 2: Navigational Blueprint */}
       <div>
         <h4 style={{ fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.2em', fontWeight: 900, color: '#E5E7EB', marginBottom: 28 }}>
-          Navigation Map
+          Navigation 
         </h4>
         <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 16, padding: 0, margin: 0 }}>
           {NAV_ITEMS.map(item => (
