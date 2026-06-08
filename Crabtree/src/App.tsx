@@ -468,7 +468,7 @@ function FaqItem({ faq, t }: { faq: (typeof FAQS)[number]; idx: number; t: Theme
 // ─── HomeContactInfoCard ──────────────────────────────────────────────────────
 // NOTE: Kept for future use; not currently rendered on Home.
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function HomeContactInfoCard({ item, t }: { item: { label: string; value: string; icon: React.ReactElement<{ color?: string }> }; t: Theme }) {
+function HomeContactInfoCard({ item, t }: { item: { label: string; value: string; icon: React.ReactElement<{ color?: string }> | React.ReactElement }; t: Theme }) {
 
   const [hov, hovProps] = useHover();
   return (
@@ -513,7 +513,6 @@ function HomeContactForm({ t, isDark, handleNavClick }: { t: Theme; isDark: bool
           </div>
           <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
             <PrimaryButton onClick={() => {}} style={{ flex: 1, padding: '13px 0', minWidth: 160 }}>Send Enquiry</PrimaryButton>
-            <button type="button" onClick={() => handleNavClick('Contact')} style={{ flex: 1, minWidth: 140, padding: '13px 0', background: 'none', border: `1px solid ${t.border}`, borderRadius: 6, cursor: 'pointer', fontSize: 11, fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase', color: t.textMuted, transition: 'all 0.2s' }}>Full Contact Page →</button>
           </div>
           <p style={{ fontSize: 11, color: t.textLight, textAlign: 'center', fontWeight: 300 }}>Your enquiry is strictly confidential. Conflicts clearance within 4 business hours.</p>
         </form>
